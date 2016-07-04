@@ -70,6 +70,10 @@ public enum AppPropertyType {
     REASSIGN_COLOR_TOOLTIP,
     THICKNESS_TOOLTIP,
     ZOOM_TOOLTIP,
+    PLAY_ICON,
+    PAUSE_ICON,
+    PLAY_TOOLTIP,
+    PAUSE_TOOLTIP,
 
     /**
      *

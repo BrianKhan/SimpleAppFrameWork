@@ -1,5 +1,6 @@
 package saf.ui;
 
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -91,14 +92,16 @@ public class AppGUI implements AppStyleArbiter {
     protected Button newMapButton;
     protected Button saveMapButton;
     protected Button exportMapButton;
-    protected Button chamgeMapName;
-    protected Button addImageButton;
+    
 
     // edit toolbar
     protected Button changeBackgroundColorButton;
     protected Slider borderThicknessSlider;
     protected Slider zoomSlider;
     protected Button reassignColorsButton;
+    protected Button chamgeMapName;
+    protected Button addImageButton;
+    protected Button playButton;
 
     // HERE ARE OUR DIALOGS
     /**
@@ -202,6 +205,7 @@ public class AppGUI implements AppStyleArbiter {
      */
     private void initFileToolbar(AppTemplate app) {
         fileToolbarPane = new FlowPane();
+        fileToolbarPane.setAlignment(Pos.CENTER);
 
         // HERE ARE OUR FILE TOOLBAR BUTTONS, NOTE THAT SOME WILL
         // START AS ENABLED (false), WHILE OTHERS DISABLED (true)
@@ -210,8 +214,6 @@ public class AppGUI implements AppStyleArbiter {
         loadButton = initChildButton(fileToolbarPane, LOAD_ICON.toString(), LOAD_TOOLTIP.toString(), false);
         saveButton = initChildButton(fileToolbarPane, SAVE_ICON.toString(), SAVE_TOOLTIP.toString(), true);
         exportMapButton = initChildButton(fileToolbarPane, EXPORT_ICON.toString(), EXPORT_TOOLTIP.toString(), false);
-        chamgeMapName = initChildButton(fileToolbarPane, CHANGE_NAME.toString(), CHANGE_TOOLTIP.toString(), false);
-        addImageButton = initChildButton(fileToolbarPane, ADD_ICON.toString(), ADD_TOOLTIP.toString(), false);
 
         exitButton = initChildButton(fileToolbarPane, EXIT_ICON.toString(), EXIT_TOOLTIP.toString(), false);
 
@@ -234,7 +236,11 @@ public class AppGUI implements AppStyleArbiter {
     }
 
     private void initEditToolbar(AppTemplate app) {
+
         editToolbarPane = new FlowPane();
+        editToolbarPane.setAlignment(Pos.CENTER);
+        chamgeMapName = initChildButton(editToolbarPane, CHANGE_NAME.toString(), CHANGE_TOOLTIP.toString(), false);
+        addImageButton = initChildButton(editToolbarPane, ADD_ICON.toString(), ADD_TOOLTIP.toString(), false);
         PropertiesManager props = PropertiesManager.getPropertiesManager();
         changeBackgroundColorButton = initChildButton(editToolbarPane, CHANGE_COLOR.toString(), CHANGE_COLOR_TOOLTIP.toString(), false);
         borderThicknessSlider = new Slider();
@@ -248,6 +254,7 @@ public class AppGUI implements AppStyleArbiter {
         zoomSlider = new Slider();
         editToolbarPane.getChildren().add(zoomSlider);
         reassignColorsButton = initChildButton(editToolbarPane, REASSIGN_ICON.toString(), REASSIGN_COLOR_TOOLTIP.toString(), false);
+        playButton = initChildButton(editToolbarPane, PLAY_ICON.toString(), PLAY_TOOLTIP.toString(), false);
         toolPane.setRight(editToolbarPane);
     }
 
