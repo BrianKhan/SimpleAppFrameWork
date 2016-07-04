@@ -73,6 +73,7 @@ public class AppGUI implements AppStyleArbiter {
     protected Button newButton;
     protected Label thickness;
     protected Label zoom;
+    protected Label filler;
 
     /**
      *
@@ -205,7 +206,7 @@ public class AppGUI implements AppStyleArbiter {
      */
     private void initFileToolbar(AppTemplate app) {
         fileToolbarPane = new FlowPane();
-        fileToolbarPane.setAlignment(Pos.CENTER);
+       // fileToolbarPane.setAlignment(Pos.CENTER);
 
         // HERE ARE OUR FILE TOOLBAR BUTTONS, NOTE THAT SOME WILL
         // START AS ENABLED (false), WHILE OTHERS DISABLED (true)
@@ -238,7 +239,7 @@ public class AppGUI implements AppStyleArbiter {
     private void initEditToolbar(AppTemplate app) {
 
         editToolbarPane = new FlowPane();
-        editToolbarPane.setAlignment(Pos.CENTER);
+       // editToolbarPane.setAlignment(Pos.CENTER);
         chamgeMapName = initChildButton(editToolbarPane, CHANGE_NAME.toString(), CHANGE_TOOLTIP.toString(), false);
         addImageButton = initChildButton(editToolbarPane, ADD_ICON.toString(), ADD_TOOLTIP.toString(), false);
         PropertiesManager props = PropertiesManager.getPropertiesManager();
@@ -248,6 +249,8 @@ public class AppGUI implements AppStyleArbiter {
         thickness.setText(props.getProperty(THICKNESS_TOOLTIP));
         editToolbarPane.getChildren().add(thickness);
         editToolbarPane.getChildren().add(borderThicknessSlider);
+        filler = new Label("                               ");
+        editToolbarPane.getChildren().add(filler);
         zoom = new Label();
         zoom.setText(props.getProperty(ZOOM_TOOLTIP));
         editToolbarPane.getChildren().add(zoom);
