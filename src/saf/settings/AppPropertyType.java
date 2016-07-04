@@ -52,6 +52,24 @@ public enum AppPropertyType {
      *
      */
     SAVE_AS_ICON,
+    
+    EXPORT_ICON,
+    
+    CHANGE_NAME,
+
+    CHANGE_TOOLTIP,
+
+
+    ADD_ICON,
+
+
+    ADD_TOOLTIP,
+    CHANGE_COLOR,
+    CHANGE_COLOR_TOOLTIP,
+    REASSIGN_ICON,
+    REASSIGN_COLOR_TOOLTIP,
+    THICKNESS_TOOLTIP,
+    ZOOM_TOOLTIP,
 
     /**
      *

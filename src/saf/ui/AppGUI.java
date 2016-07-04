@@ -3,6 +3,8 @@ package saf.ui;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,10 +22,10 @@ import static saf.settings.AppStartupConstants.PATH_IMAGES;
 import saf.components.AppStyleArbiter;
 
 /**
- * This class provides the basic user interface for this application,
- * including all the file controls, but not including the workspace,
- * which would be customly provided for each app.
- * 
+ * This class provides the basic user interface for this application, including
+ * all the file controls, but not including the workspace, which would be
+ * customly provided for each app.
+ *
  * @author Richard McKenna
  * @author ?
  * @version 1.0
@@ -34,41 +36,42 @@ public class AppGUI implements AppStyleArbiter {
     /**
      *
      */
-        protected AppFileController fileController;
+    protected AppFileController fileController;
 
     // THIS IS THE APPLICATION WINDOW
-
     /**
      *
      */
-        protected Stage primaryStage;
+    protected Stage primaryStage;
 
     // THIS IS THE STAGE'S SCENE GRAPH
-
     /**
      *
      */
-        protected Scene primaryScene;
+    protected Scene primaryScene;
 
     // THIS PANE ORGANIZES THE BIG PICTURE CONTAINERS FOR THE
     // APPLICATION AppGUI
-
     /**
      *
      */
-        protected BorderPane appPane;
-    
+    protected BorderPane appPane;
+    protected BorderPane toolPane;
+
     // THIS IS THE TOP TOOLBAR AND ITS CONTROLS
-
     /**
      *
      */
-        protected FlowPane fileToolbarPane;
+    protected FlowPane fileToolbarPane;
+    protected FlowPane editToolbarPane;
+    protected FlowPane freePane;
 
     /**
      *
      */
     protected Button newButton;
+    protected Label thickness;
+    protected Label zoom;
 
     /**
      *
@@ -83,81 +86,92 @@ public class AppGUI implements AppStyleArbiter {
     /**
      *
      */
-    
     //file toolbar
-    
     protected Button exitButton;
     protected Button newMapButton;
     protected Button saveMapButton;
     protected Button exportMapButton;
     protected Button chamgeMapName;
     protected Button addImageButton;
-    
-    
-    // HERE ARE OUR DIALOGS
 
+    // edit toolbar
+    protected Button changeBackgroundColorButton;
+    protected Slider borderThicknessSlider;
+    protected Slider zoomSlider;
+    protected Button reassignColorsButton;
+
+    // HERE ARE OUR DIALOGS
     /**
      *
      */
-        protected AppYesNoCancelDialogSingleton yesNoCancelDialog;
-    
+    protected AppYesNoCancelDialogSingleton yesNoCancelDialog;
+
     /**
      *
      */
     protected String appTitle;
-    
+
     /**
      * This constructor initializes the file toolbar for use.
-     * 
+     *
      * @param initPrimaryStage The window for this application.
-     * 
-     * @param initAppTitle The title of this application, which
-     * will appear in the window bar.
-     * 
+     *
+     * @param initAppTitle The title of this application, which will appear in
+     * the window bar.
+     *
      * @param app The app within this gui is used.
      */
-    public AppGUI(  Stage initPrimaryStage, 
-		    String initAppTitle, 
-		    AppTemplate app){
-	// SAVE THESE FOR LATER
-	primaryStage = initPrimaryStage;
-	appTitle = initAppTitle;
-	       
+    public AppGUI(Stage initPrimaryStage,
+            String initAppTitle,
+            AppTemplate app) {
+        // SAVE THESE FOR LATER
+        primaryStage = initPrimaryStage;
+        appTitle = initAppTitle;
+
         // INIT THE TOOLBAR
+        toolPane = new BorderPane();
+        freePane = new FlowPane();
+        toolPane.setCenter(freePane);
         initFileToolbar(app);
-		
+        initEditToolbar(app);
+
         // AND FINALLY START UP THE WINDOW (WITHOUT THE WORKSPACE)
         initWindow();
     }
-    
-    /**
-     * Accessor method for getting the application pane, within which all
-     * user interface controls are ultimately placed.
-     * 
-     * @return This application GUI's app pane.
-     */
-    public BorderPane getAppPane() { return appPane; }
-    
-    /**
-     * Accessor method for getting this application's primary stage's,
-     * scene.
-     * 
-     * @return This application's window's scene.
-     */
-    public Scene getPrimaryScene() { return primaryScene; }
-    
-    /**
-     * Accessor method for getting this application's window,
-     * which is the primary stage within which the full GUI will be placed.
-     * 
-     * @return This application's primary stage (i.e. window).
-     */    
-    public Stage getWindow() { return primaryStage; }
 
     /**
-     * This method is used to activate/deactivate toolbar buttons when
-     * they can and cannot be used so as to provide foolproof design.
-     * 
+     * Accessor method for getting the application pane, within which all user
+     * interface controls are ultimately placed.
+     *
+     * @return This application GUI's app pane.
+     */
+    public BorderPane getAppPane() {
+        return appPane;
+    }
+
+    /**
+     * Accessor method for getting this application's primary stage's, scene.
+     *
+     * @return This application's window's scene.
+     */
+    public Scene getPrimaryScene() {
+        return primaryScene;
+    }
+
+    /**
+     * Accessor method for getting this application's window, which is the
+     * primary stage within which the full GUI will be placed.
+     *
+     * @return This application's primary stage (i.e. window).
+     */
+    public Stage getWindow() {
+        return primaryStage;
+    }
+
+    /**
+     * This method is used to activate/deactivate toolbar buttons when they can
+     * and cannot be used so as to provide foolproof design.
+     *
      * @param saved Describes whether the loaded Page has been saved or not.
      */
     public void updateToolbarControls(boolean saved) {
@@ -167,18 +181,21 @@ public class AppGUI implements AppStyleArbiter {
 
         // ALL THE OTHER BUTTONS ARE ALWAYS ENABLED
         // ONCE EDITING THAT FIRST COURSE BEGINS
-	newButton.setDisable(false);
+        newButton.setDisable(false);
         loadButton.setDisable(false);
-	exitButton.setDisable(false);
+        exitButton.setDisable(false);
 
         // NOTE THAT THE NEW, LOAD, AND EXIT BUTTONS
         // ARE NEVER DISABLED SO WE NEVER HAVE TO TOUCH THEM
     }
 
-    /****************************************************************************/
+    /**
+     * *************************************************************************
+     */
     /* BELOW ARE ALL THE PRIVATE HELPER METHODS WE USE FOR INITIALIZING OUR AppGUI */
-    /****************************************************************************/
-    
+    /**
+     * *************************************************************************
+     */
     /**
      * This function initializes all the buttons in the toolbar at the top of
      * the application window. These are related to file management.
@@ -188,12 +205,17 @@ public class AppGUI implements AppStyleArbiter {
 
         // HERE ARE OUR FILE TOOLBAR BUTTONS, NOTE THAT SOME WILL
         // START AS ENABLED (false), WHILE OTHERS DISABLED (true)
-        newButton = initChildButton(fileToolbarPane,	NEW_ICON.toString(),	    NEW_TOOLTIP.toString(),	false);
-        loadButton = initChildButton(fileToolbarPane,	LOAD_ICON.toString(),	    LOAD_TOOLTIP.toString(),	false);
-        saveButton = initChildButton(fileToolbarPane,	SAVE_ICON.toString(),	    SAVE_TOOLTIP.toString(),	true);
-        exitButton = initChildButton(fileToolbarPane,	EXIT_ICON.toString(),	    EXIT_TOOLTIP.toString(),	false);
+        //@todo change strings
+        newButton = initChildButton(fileToolbarPane, NEW_ICON.toString(), NEW_TOOLTIP.toString(), false);
+        loadButton = initChildButton(fileToolbarPane, LOAD_ICON.toString(), LOAD_TOOLTIP.toString(), false);
+        saveButton = initChildButton(fileToolbarPane, SAVE_ICON.toString(), SAVE_TOOLTIP.toString(), true);
+        exportMapButton = initChildButton(fileToolbarPane, EXPORT_ICON.toString(), EXPORT_TOOLTIP.toString(), false);
+        chamgeMapName = initChildButton(fileToolbarPane, CHANGE_NAME.toString(), CHANGE_TOOLTIP.toString(), false);
+        addImageButton = initChildButton(fileToolbarPane, ADD_ICON.toString(), ADD_TOOLTIP.toString(), false);
 
-	// AND NOW SETUP THEIR EVENT HANDLERS
+        exitButton = initChildButton(fileToolbarPane, EXIT_ICON.toString(), EXIT_TOOLTIP.toString(), false);
+
+        // AND NOW SETUP THEIR EVENT HANDLERS
         fileController = new AppFileController(app);
         newButton.setOnAction(e -> {
             fileController.handleNewRequest();
@@ -206,7 +228,27 @@ public class AppGUI implements AppStyleArbiter {
         });
         exitButton.setOnAction(e -> {
             fileController.handleExitRequest();
-        });	
+        });
+
+        toolPane.setLeft(fileToolbarPane);
+    }
+
+    private void initEditToolbar(AppTemplate app) {
+        editToolbarPane = new FlowPane();
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+        changeBackgroundColorButton = initChildButton(editToolbarPane, CHANGE_COLOR.toString(), CHANGE_COLOR_TOOLTIP.toString(), false);
+        borderThicknessSlider = new Slider();
+        thickness = new Label();
+        thickness.setText(props.getProperty(THICKNESS_TOOLTIP));
+        editToolbarPane.getChildren().add(thickness);
+        editToolbarPane.getChildren().add(borderThicknessSlider);
+        zoom = new Label();
+        zoom.setText(props.getProperty(ZOOM_TOOLTIP));
+        editToolbarPane.getChildren().add(zoom);
+        zoomSlider = new Slider();
+        editToolbarPane.getChildren().add(zoomSlider);
+        reassignColorsButton = initChildButton(editToolbarPane, REASSIGN_ICON.toString(), REASSIGN_COLOR_TOOLTIP.toString(), false);
+        toolPane.setRight(editToolbarPane);
     }
 
     // INITIALIZE THE WINDOW (i.e. STAGE) PUTTING ALL THE CONTROLS
@@ -230,11 +272,12 @@ public class AppGUI implements AppStyleArbiter {
         // HAS BEEN CONSTRUCTED, BUT WON'T BE ADDED UNTIL
         // THE USER STARTS EDITING A COURSE
         appPane = new BorderPane();
-        appPane.setTop(fileToolbarPane);
+        appPane.setTop(toolPane);
+
         primaryScene = new Scene(appPane);
-        
+
         // SET THE APP ICON
-	PropertiesManager props = PropertiesManager.getPropertiesManager();
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
         String appIcon = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(APP_LOGO);
         primaryStage.getIcons().add(new Image(appIcon));
 
@@ -242,53 +285,59 @@ public class AppGUI implements AppStyleArbiter {
         primaryStage.setScene(primaryScene);
         primaryStage.show();
     }
-    
+
     /**
-     * This is a public helper method for initializing a simple button with
-     * an icon and tooltip and placing it into a toolbar.
-     * 
+     * This is a public helper method for initializing a simple button with an
+     * icon and tooltip and placing it into a toolbar.
+     *
      * @param toolbar Toolbar pane into which to place this button.
-     * 
+     *
      * @param icon Icon image file name for the button.
-     * 
+     *
      * @param tooltip Tooltip to appear when the user mouses over the button.
-     * 
-     * @param disabled true if the button is to start off disabled, false otherwise.
-     * 
-     * @return A constructed, fully initialized button placed into its appropriate
-     * pane container.
+     *
+     * @param disabled true if the button is to start off disabled, false
+     * otherwise.
+     *
+     * @return A constructed, fully initialized button placed into its
+     * appropriate pane container.
      */
     public Button initChildButton(Pane toolbar, String icon, String tooltip, boolean disabled) {
         PropertiesManager props = PropertiesManager.getPropertiesManager();
-	
-	// LOAD THE ICON FROM THE PROVIDED FILE
+
+        // LOAD THE ICON FROM THE PROVIDED FILE
         String imagePath = FILE_PROTOCOL + PATH_IMAGES + props.getProperty(icon);
         Image buttonImage = new Image(imagePath);
-	
-	// NOW MAKE THE BUTTON
+
+        // NOW MAKE THE BUTTON
         Button button = new Button();
         button.setDisable(disabled);
-        button.setGraphic(new ImageView(buttonImage));
+        ImageView btnimg = new ImageView(buttonImage);
+        btnimg.setFitHeight(18);
+        btnimg.setFitWidth(18);
+        button.setGraphic(btnimg);
         Tooltip buttonTooltip = new Tooltip(props.getProperty(tooltip));
         button.setTooltip(buttonTooltip);
-	
-	// PUT THE BUTTON IN THE TOOLBAR
+
+        // PUT THE BUTTON IN THE TOOLBAR
         toolbar.getChildren().add(button);
-	
-	// AND RETURN THE COMPLETED BUTTON
+
+        // AND RETURN THE COMPLETED BUTTON
         return button;
     }
-    
+
     /**
-     * This function specifies the CSS style classes for the controls managed
-     * by this framework.
+     * This function specifies the CSS style classes for the controls managed by
+     * this framework.
      */
     @Override
     public void initStyle() {
-	fileToolbarPane.getStyleClass().add(CLASS_BORDERED_PANE);
-	newButton.getStyleClass().add(CLASS_FILE_BUTTON);
-	loadButton.getStyleClass().add(CLASS_FILE_BUTTON);
-	saveButton.getStyleClass().add(CLASS_FILE_BUTTON);
-	exitButton.getStyleClass().add(CLASS_FILE_BUTTON);
+        fileToolbarPane.getStyleClass().add(CLASS_BORDERED_PANE);
+        editToolbarPane.getStyleClass().add(CLASS_BORDERED_PANE);
+        freePane.getStyleClass().add(CLASS_BORDERED_PANE);
+        newButton.getStyleClass().add(CLASS_FILE_BUTTON);
+        loadButton.getStyleClass().add(CLASS_FILE_BUTTON);
+        saveButton.getStyleClass().add(CLASS_FILE_BUTTON);
+        exitButton.getStyleClass().add(CLASS_FILE_BUTTON);
     }
 }
