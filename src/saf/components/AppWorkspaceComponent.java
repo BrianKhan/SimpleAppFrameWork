@@ -1,5 +1,6 @@
 package saf.components;
 
+import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
@@ -20,7 +21,7 @@ public abstract class AppWorkspaceComponent implements AppStyleArbiter {
     /**
      *
      */
-        protected Pane workspace;
+        protected SplitPane workspace;
     
     // THIS DENOTES THAT THE USER HAS BEGUN WORKING AND
     // SO THE WORKSPACE IS VISIBLE AND USABLE
@@ -53,7 +54,7 @@ public abstract class AppWorkspaceComponent implements AppStyleArbiter {
      * @param initWorkspace The workspace to set as the user
      * interface's workspace.
      */
-    public void setWorkspace(Pane initWorkspace) { 
+    public void setWorkspace(SplitPane initWorkspace) { 
 	workspace = initWorkspace; 
     }
     
@@ -62,7 +63,7 @@ public abstract class AppWorkspaceComponent implements AppStyleArbiter {
      * 
      * @return The workspace pane for this app.
      */
-    public Pane getWorkspace() { return workspace; }
+    public SplitPane getWorkspace() { return workspace; }
     
     // THE DEFINITION OF THIS CLASS SHOULD BE PROVIDED
     // BY THE CONCRETE WORKSPACE

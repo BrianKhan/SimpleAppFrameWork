@@ -74,6 +74,7 @@ public enum AppPropertyType {
     PAUSE_ICON,
     PLAY_TOOLTIP,
     PAUSE_TOOLTIP,
+    IMAGE_TEST,
 
     /**
      *
