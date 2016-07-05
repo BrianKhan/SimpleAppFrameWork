@@ -21,6 +21,7 @@ import static saf.settings.AppPropertyType.*;
 import static saf.settings.AppStartupConstants.FILE_PROTOCOL;
 import static saf.settings.AppStartupConstants.PATH_IMAGES;
 import saf.components.AppStyleArbiter;
+import saf.components.AppWorkspaceComponent;
 
 /**
  * This class provides the basic user interface for this application, including
@@ -70,6 +71,8 @@ public class AppGUI implements AppStyleArbiter {
     /**
      *
      */
+    protected Button testButton;
+
     protected Button newButton;
     protected Label thickness;
     protected Label zoom;
@@ -93,7 +96,6 @@ public class AppGUI implements AppStyleArbiter {
     protected Button newMapButton;
     protected Button saveMapButton;
     protected Button exportMapButton;
-    
 
     // edit toolbar
     protected Button changeBackgroundColorButton;
@@ -141,6 +143,7 @@ public class AppGUI implements AppStyleArbiter {
 
         // AND FINALLY START UP THE WINDOW (WITHOUT THE WORKSPACE)
         initWindow();
+
     }
 
     /**
@@ -170,6 +173,13 @@ public class AppGUI implements AppStyleArbiter {
      */
     public Stage getWindow() {
         return primaryStage;
+    }
+
+    public Button getColorButton() {
+        return changeBackgroundColorButton;
+    }
+    public Button getNewButton() {
+        return newButton;
     }
 
     /**
@@ -206,8 +216,9 @@ public class AppGUI implements AppStyleArbiter {
      */
     private void initFileToolbar(AppTemplate app) {
         fileToolbarPane = new FlowPane();
-       // fileToolbarPane.setAlignment(Pos.CENTER);
-
+        // fileToolbarPane.setAlignment(Pos.CENTER);
+        testButton = new Button("Driver test");
+        freePane.getChildren().add(testButton);
         // HERE ARE OUR FILE TOOLBAR BUTTONS, NOTE THAT SOME WILL
         // START AS ENABLED (false), WHILE OTHERS DISABLED (true)
         //@todo change strings
@@ -232,18 +243,21 @@ public class AppGUI implements AppStyleArbiter {
         exitButton.setOnAction(e -> {
             fileController.handleExitRequest();
         });
-
+        testButton.setOnAction(e-> { 
+            fileController.handleTest();
+        });
         toolPane.setLeft(fileToolbarPane);
     }
 
     private void initEditToolbar(AppTemplate app) {
 
         editToolbarPane = new FlowPane();
-       // editToolbarPane.setAlignment(Pos.CENTER);
+        // editToolbarPane.setAlignment(Pos.CENTER);
         chamgeMapName = initChildButton(editToolbarPane, CHANGE_NAME.toString(), CHANGE_TOOLTIP.toString(), false);
         addImageButton = initChildButton(editToolbarPane, ADD_ICON.toString(), ADD_TOOLTIP.toString(), false);
         PropertiesManager props = PropertiesManager.getPropertiesManager();
         changeBackgroundColorButton = initChildButton(editToolbarPane, CHANGE_COLOR.toString(), CHANGE_COLOR_TOOLTIP.toString(), false);
+
         borderThicknessSlider = new Slider();
         thickness = new Label();
         thickness.setText(props.getProperty(THICKNESS_TOOLTIP));
@@ -259,6 +273,7 @@ public class AppGUI implements AppStyleArbiter {
         reassignColorsButton = initChildButton(editToolbarPane, REASSIGN_ICON.toString(), REASSIGN_COLOR_TOOLTIP.toString(), false);
         playButton = initChildButton(editToolbarPane, PLAY_ICON.toString(), PLAY_TOOLTIP.toString(), false);
         toolPane.setRight(editToolbarPane);
+
     }
 
     // INITIALIZE THE WINDOW (i.e. STAGE) PUTTING ALL THE CONTROLS

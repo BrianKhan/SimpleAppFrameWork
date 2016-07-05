@@ -61,6 +61,8 @@ public enum AppPropertyType {
 
 
     ADD_ICON,
+    LEADER_PATH,
+    FLAG_PATH,
 
 
     ADD_TOOLTIP,

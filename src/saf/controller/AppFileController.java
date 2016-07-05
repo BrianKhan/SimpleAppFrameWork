@@ -29,6 +29,7 @@ import static saf.settings.AppPropertyType.SAVE_UNSAVED_WORK_TITLE;
 import static saf.settings.AppPropertyType.SAVE_WORK_TITLE;
 import static saf.settings.AppStartupConstants.PATH_WORK;
 
+
 /**
  * This class provides the event programmed responses for the file controls
  * that are provided by this framework.
@@ -40,6 +41,7 @@ import static saf.settings.AppStartupConstants.PATH_WORK;
 public class AppFileController {
     // HERE'S THE APP
     AppTemplate app;
+    boolean activated = false;
     
     // WE WANT TO KEEP TRACK OF WHEN SOMETHING HAS NOT BEEN SAVED
     boolean saved;
@@ -80,7 +82,7 @@ public class AppFileController {
      * 
      */
     public void handleNewRequest() {
-	AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+/*	AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
 	PropertiesManager props = PropertiesManager.getPropertiesManager();
         try {
             // WE MAY HAVE TO SAVE CURRENT WORK
@@ -117,6 +119,7 @@ public class AppFileController {
             // SOMETHING WENT WRONG, PROVIDE FEEDBACK
 	    dialog.show(props.getProperty(NEW_ERROR_TITLE), props.getProperty(NEW_ERROR_MESSAGE));
         }
+        */
     }
 
     /**
@@ -144,6 +147,45 @@ public class AppFileController {
 	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
 	    PropertiesManager props = PropertiesManager.getPropertiesManager();
 	    dialog.show(props.getProperty(LOAD_ERROR_TITLE), props.getProperty(LOAD_ERROR_MESSAGE));
+        }
+    }
+    public void handleTest() {
+        AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+	PropertiesManager props = PropertiesManager.getPropertiesManager();
+        try {
+            // WE MAY HAVE TO SAVE CURRENT WORK
+            boolean continueToMakeNew = true;
+            if (!saved) {
+                // THE USER CAN OPT OUT HERE WITH A CANCEL
+                continueToMakeNew = promptToSave();
+            }
+
+            // IF THE USER REALLY WANTS TO MAKE A NEW COURSE
+            if (continueToMakeNew) {
+                // RESET THE DATA, WHICH SHOULD TRIGGER A RESET OF THE UI
+                app.getDataComponent().reset();        
+
+		// LOAD ALL THE DATA INTO THE WORKSPACE
+		app.getWorkspaceComponent().reloadWorkspace();	
+
+		// MAKE SURE THE WORKSPACE IS ACTIVATED
+		app.getWorkspaceComponent().activateWorkspace(app.getGUI().getAppPane());
+		
+		// WORK IS NOT SAVED
+                saved = false;
+		currentWorkFile = null;
+
+                // REFRESH THE GUI, WHICH WILL ENABLE AND DISABLE
+                // THE APPROPRIATE CONTROLS
+                app.getGUI().updateToolbarControls(saved);
+		app.getWorkspaceComponent().reloadWorkspace();
+
+                // TELL THE USER NEW WORK IS UNDERWAY
+		dialog.show(props.getProperty(NEW_COMPLETED_TITLE), props.getProperty(NEW_COMPLETED_MESSAGE));
+            }
+        } catch (IOException ioe) {
+            // SOMETHING WENT WRONG, PROVIDE FEEDBACK
+	    dialog.show(props.getProperty(NEW_ERROR_TITLE), props.getProperty(NEW_ERROR_MESSAGE));
         }
     }
 
