@@ -72,7 +72,7 @@ public class AppGUI implements AppStyleArbiter {
      *
      */
     protected Button testButton;
-
+    
     protected Button newButton;
     protected Label thickness;
     protected Label zoom;
@@ -143,7 +143,7 @@ public class AppGUI implements AppStyleArbiter {
 
         // AND FINALLY START UP THE WINDOW (WITHOUT THE WORKSPACE)
         initWindow();
-
+        
     }
 
     /**
@@ -174,10 +174,11 @@ public class AppGUI implements AppStyleArbiter {
     public Stage getWindow() {
         return primaryStage;
     }
-
+    
     public Button getColorButton() {
         return changeBackgroundColorButton;
     }
+
     public Button getNewButton() {
         return newButton;
     }
@@ -216,9 +217,12 @@ public class AppGUI implements AppStyleArbiter {
      */
     private void initFileToolbar(AppTemplate app) {
         fileToolbarPane = new FlowPane();
-        // fileToolbarPane.setAlignment(Pos.CENTER);
+        
         testButton = new Button("Driver test");
+        
         freePane.getChildren().add(testButton);
+        freePane.setAlignment(Pos.CENTER);
+        testButton.setAlignment(Pos.CENTER);
         // HERE ARE OUR FILE TOOLBAR BUTTONS, NOTE THAT SOME WILL
         // START AS ENABLED (false), WHILE OTHERS DISABLED (true)
         //@todo change strings
@@ -226,7 +230,7 @@ public class AppGUI implements AppStyleArbiter {
         loadButton = initChildButton(fileToolbarPane, LOAD_ICON.toString(), LOAD_TOOLTIP.toString(), false);
         saveButton = initChildButton(fileToolbarPane, SAVE_ICON.toString(), SAVE_TOOLTIP.toString(), true);
         exportMapButton = initChildButton(fileToolbarPane, EXPORT_ICON.toString(), EXPORT_TOOLTIP.toString(), false);
-
+        
         exitButton = initChildButton(fileToolbarPane, EXIT_ICON.toString(), EXIT_TOOLTIP.toString(), false);
 
         // AND NOW SETUP THEIR EVENT HANDLERS
@@ -243,21 +247,21 @@ public class AppGUI implements AppStyleArbiter {
         exitButton.setOnAction(e -> {
             fileController.handleExitRequest();
         });
-        testButton.setOnAction(e-> { 
+        testButton.setOnAction(e -> {            
             fileController.handleTest();
         });
         toolPane.setLeft(fileToolbarPane);
     }
-
+    
     private void initEditToolbar(AppTemplate app) {
-
+        
         editToolbarPane = new FlowPane();
         // editToolbarPane.setAlignment(Pos.CENTER);
         chamgeMapName = initChildButton(editToolbarPane, CHANGE_NAME.toString(), CHANGE_TOOLTIP.toString(), false);
         addImageButton = initChildButton(editToolbarPane, ADD_ICON.toString(), ADD_TOOLTIP.toString(), false);
         PropertiesManager props = PropertiesManager.getPropertiesManager();
         changeBackgroundColorButton = initChildButton(editToolbarPane, CHANGE_COLOR.toString(), CHANGE_COLOR_TOOLTIP.toString(), false);
-
+        
         borderThicknessSlider = new Slider();
         thickness = new Label();
         thickness.setText(props.getProperty(THICKNESS_TOOLTIP));
@@ -273,7 +277,7 @@ public class AppGUI implements AppStyleArbiter {
         reassignColorsButton = initChildButton(editToolbarPane, REASSIGN_ICON.toString(), REASSIGN_COLOR_TOOLTIP.toString(), false);
         playButton = initChildButton(editToolbarPane, PLAY_ICON.toString(), PLAY_TOOLTIP.toString(), false);
         toolPane.setRight(editToolbarPane);
-
+        
     }
 
     // INITIALIZE THE WINDOW (i.e. STAGE) PUTTING ALL THE CONTROLS
@@ -298,7 +302,7 @@ public class AppGUI implements AppStyleArbiter {
         // THE USER STARTS EDITING A COURSE
         appPane = new BorderPane();
         appPane.setTop(toolPane);
-
+        
         primaryScene = new Scene(appPane);
 
         // SET THE APP ICON
