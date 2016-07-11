@@ -252,6 +252,12 @@ public class AppGUI implements AppStyleArbiter {
         });
         toolPane.setLeft(fileToolbarPane);
     }
+    public Button getTestButton() {
+        return testButton;
+    }
+    public FlowPane getFreePane() {
+        return freePane;
+    }
     
     private void initEditToolbar(AppTemplate app) {
         

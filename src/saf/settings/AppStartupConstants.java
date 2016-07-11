@@ -41,7 +41,7 @@ public class AppStartupConstants
      *
      */
     public static final String PATH_WORK = "./work/";
-
+    public static final String PATH_RAW_FILES = "./raw_map_data/";
     /**
      *
      */
