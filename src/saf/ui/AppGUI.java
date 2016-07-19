@@ -103,7 +103,7 @@ public class AppGUI implements AppStyleArbiter {
     protected Slider borderThicknessSlider;
     protected Slider zoomSlider;
     protected Button reassignColorsButton;
-    protected Button chamgeMapName;
+    protected Button renameMapButton;
     protected Button addImageButton;
     protected Button removeButton;
     protected Button playButton;
@@ -180,6 +180,13 @@ public class AppGUI implements AppStyleArbiter {
     public Button getColorButton() {
         return changeBackgroundColorButton;
     }
+    public Button getSaveButton() {
+        return saveButton;
+    }
+    public Button getExportButton() {
+        return exportMapButton;
+    }
+    
 
     public Button getNewButton() {
         return newButton;
@@ -260,12 +267,26 @@ public class AppGUI implements AppStyleArbiter {
     public FlowPane getFreePane() {
         return freePane;
     }
-    
+    public Button getRenameButton() {
+        return renameMapButton;
+    }
+    public Button getAddButton() {
+        return addImageButton;
+    }
+    public Button getRemoveButton() {
+        return removeButton;
+    }
+    public Button getBackgroundButton() {
+        return changeBackgroundColorButton;
+    }
+    public Button getBorderColorButton() {
+        return borderColorButton;
+    }
     private void initEditToolbar(AppTemplate app) {
         
         editToolbarPane = new FlowPane();
         // editToolbarPane.setAlignment(Pos.CENTER);
-        chamgeMapName = initChildButton(editToolbarPane, CHANGE_NAME.toString(), CHANGE_TOOLTIP.toString(), true);
+        renameMapButton = initChildButton(editToolbarPane, CHANGE_NAME.toString(), CHANGE_TOOLTIP.toString(), true);
         addImageButton = initChildButton(editToolbarPane, ADD_ICON.toString(), ADD_TOOLTIP.toString(), true);
         removeButton = initChildButton(editToolbarPane, REMOVE.toString(), REMOVE_TOOLTIP.toString(), true);
         PropertiesManager props = PropertiesManager.getPropertiesManager();
@@ -291,6 +312,10 @@ public class AppGUI implements AppStyleArbiter {
         toolPane.setRight(editToolbarPane);
         
     }
+    public Button getPlayButton () {
+        return playButton;
+    }
+    
 
     // INITIALIZE THE WINDOW (i.e. STAGE) PUTTING ALL THE CONTROLS
     // THERE EXCEPT THE WORKSPACE, WHICH WILL BE ADDED THE FIRST
