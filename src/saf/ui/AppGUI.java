@@ -312,10 +312,18 @@ public class AppGUI implements AppStyleArbiter {
         toolPane.setRight(editToolbarPane);
         
     }
+    public Button getReassignButton () {
+        return reassignColorsButton;
+    }
     public Button getPlayButton () {
         return playButton;
     }
-    
+    public Slider getZoomSlider() {
+        return zoomSlider;
+    }
+    public Slider getThickness() {
+        return borderThicknessSlider;
+    }
 
     // INITIALIZE THE WINDOW (i.e. STAGE) PUTTING ALL THE CONTROLS
     // THERE EXCEPT THE WORKSPACE, WHICH WILL BE ADDED THE FIRST
