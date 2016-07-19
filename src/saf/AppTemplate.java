@@ -124,6 +124,7 @@ public abstract class AppTemplate extends Application {
 		initStylesheet();
 		gui.initStyle();
 		workspaceComponent.initStyle();
+                workspaceComponent.activateWorkspace(gui.getAppPane());
 	    } 
 	}catch (Exception e/*IOException ioe*/) {
                 AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();

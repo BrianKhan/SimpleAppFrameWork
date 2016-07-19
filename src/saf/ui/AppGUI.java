@@ -99,11 +99,13 @@ public class AppGUI implements AppStyleArbiter {
 
     // edit toolbar
     protected Button changeBackgroundColorButton;
+    protected Button borderColorButton;
     protected Slider borderThicknessSlider;
     protected Slider zoomSlider;
     protected Button reassignColorsButton;
     protected Button chamgeMapName;
     protected Button addImageButton;
+    protected Button removeButton;
     protected Button playButton;
 
     // HERE ARE OUR DIALOGS
@@ -229,7 +231,7 @@ public class AppGUI implements AppStyleArbiter {
         newButton = initChildButton(fileToolbarPane, NEW_ICON.toString(), NEW_TOOLTIP.toString(), false);
         loadButton = initChildButton(fileToolbarPane, LOAD_ICON.toString(), LOAD_TOOLTIP.toString(), false);
         saveButton = initChildButton(fileToolbarPane, SAVE_ICON.toString(), SAVE_TOOLTIP.toString(), true);
-        exportMapButton = initChildButton(fileToolbarPane, EXPORT_ICON.toString(), EXPORT_TOOLTIP.toString(), false);
+        exportMapButton = initChildButton(fileToolbarPane, EXPORT_ICON.toString(), EXPORT_TOOLTIP.toString(), true);
         
         exitButton = initChildButton(fileToolbarPane, EXIT_ICON.toString(), EXIT_TOOLTIP.toString(), false);
 
@@ -263,13 +265,16 @@ public class AppGUI implements AppStyleArbiter {
         
         editToolbarPane = new FlowPane();
         // editToolbarPane.setAlignment(Pos.CENTER);
-        chamgeMapName = initChildButton(editToolbarPane, CHANGE_NAME.toString(), CHANGE_TOOLTIP.toString(), false);
-        addImageButton = initChildButton(editToolbarPane, ADD_ICON.toString(), ADD_TOOLTIP.toString(), false);
+        chamgeMapName = initChildButton(editToolbarPane, CHANGE_NAME.toString(), CHANGE_TOOLTIP.toString(), true);
+        addImageButton = initChildButton(editToolbarPane, ADD_ICON.toString(), ADD_TOOLTIP.toString(), true);
+        removeButton = initChildButton(editToolbarPane, REMOVE.toString(), REMOVE_TOOLTIP.toString(), true);
         PropertiesManager props = PropertiesManager.getPropertiesManager();
-        changeBackgroundColorButton = initChildButton(editToolbarPane, CHANGE_COLOR.toString(), CHANGE_COLOR_TOOLTIP.toString(), false);
+        changeBackgroundColorButton = initChildButton(editToolbarPane, CHANGE_COLOR.toString(), CHANGE_COLOR_TOOLTIP.toString(), true);
+        borderColorButton = initChildButton(editToolbarPane, BORDER_COLOR.toString(),  BORDER_COLOR_TOOLTIP.toString(), true);
         
         borderThicknessSlider = new Slider();
         thickness = new Label();
+        borderThicknessSlider.setDisable(true);
         thickness.setText(props.getProperty(THICKNESS_TOOLTIP));
         editToolbarPane.getChildren().add(thickness);
         editToolbarPane.getChildren().add(borderThicknessSlider);
@@ -279,9 +284,10 @@ public class AppGUI implements AppStyleArbiter {
         zoom.setText(props.getProperty(ZOOM_TOOLTIP));
         editToolbarPane.getChildren().add(zoom);
         zoomSlider = new Slider();
+        zoomSlider.setDisable(true);
         editToolbarPane.getChildren().add(zoomSlider);
-        reassignColorsButton = initChildButton(editToolbarPane, REASSIGN_ICON.toString(), REASSIGN_COLOR_TOOLTIP.toString(), false);
-        playButton = initChildButton(editToolbarPane, PLAY_ICON.toString(), PLAY_TOOLTIP.toString(), false);
+        reassignColorsButton = initChildButton(editToolbarPane, REASSIGN_ICON.toString(), REASSIGN_COLOR_TOOLTIP.toString(), true);
+        playButton = initChildButton(editToolbarPane, PLAY_ICON.toString(), PLAY_TOOLTIP.toString(), true);
         toolPane.setRight(editToolbarPane);
         
     }

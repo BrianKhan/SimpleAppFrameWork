@@ -67,6 +67,8 @@ public enum AppPropertyType {
 
     ADD_TOOLTIP,
     CHANGE_COLOR,
+    BORDER_COLOR,
+    BORDER_COLOR_TOOLTIP,
     CHANGE_COLOR_TOOLTIP,
     REASSIGN_ICON,
     REASSIGN_COLOR_TOOLTIP,
@@ -77,6 +79,8 @@ public enum AppPropertyType {
     PLAY_TOOLTIP,
     PAUSE_TOOLTIP,
     IMAGE_TEST,
+    REMOVE,
+    REMOVE_TOOLTIP,
 
     /**
      *
