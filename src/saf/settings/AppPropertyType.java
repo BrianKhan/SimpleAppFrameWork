@@ -81,6 +81,8 @@ public enum AppPropertyType {
     IMAGE_TEST,
     REMOVE,
     REMOVE_TOOLTIP,
+    RESIZE_ICON,
+    RESIZE_TOOLTIP,
 
     /**
      *

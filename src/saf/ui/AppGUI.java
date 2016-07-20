@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tooltip;
@@ -98,8 +99,8 @@ public class AppGUI implements AppStyleArbiter {
     protected Button exportMapButton;
 
     // edit toolbar
-    protected Button changeBackgroundColorButton;
-    protected Button borderColorButton;
+    protected ColorPicker changeBackgroundColorButton;
+    protected ColorPicker borderColorButton;
     protected Slider borderThicknessSlider;
     protected Slider zoomSlider;
     protected Button reassignColorsButton;
@@ -107,6 +108,7 @@ public class AppGUI implements AppStyleArbiter {
     protected Button addImageButton;
     protected Button removeButton;
     protected Button playButton;
+    protected Button resizeButton;
 
     // HERE ARE OUR DIALOGS
     /**
@@ -177,7 +179,7 @@ public class AppGUI implements AppStyleArbiter {
         return primaryStage;
     }
     
-    public Button getColorButton() {
+    public ColorPicker getColorButton() {
         return changeBackgroundColorButton;
     }
     public Button getSaveButton() {
@@ -276,10 +278,10 @@ public class AppGUI implements AppStyleArbiter {
     public Button getRemoveButton() {
         return removeButton;
     }
-    public Button getBackgroundButton() {
+    public ColorPicker getBackgroundButton() {
         return changeBackgroundColorButton;
     }
-    public Button getBorderColorButton() {
+    public ColorPicker getBorderColorButton() {
         return borderColorButton;
     }
     private void initEditToolbar(AppTemplate app) {
@@ -290,16 +292,26 @@ public class AppGUI implements AppStyleArbiter {
         addImageButton = initChildButton(editToolbarPane, ADD_ICON.toString(), ADD_TOOLTIP.toString(), true);
         removeButton = initChildButton(editToolbarPane, REMOVE.toString(), REMOVE_TOOLTIP.toString(), true);
         PropertiesManager props = PropertiesManager.getPropertiesManager();
-        changeBackgroundColorButton = initChildButton(editToolbarPane, CHANGE_COLOR.toString(), CHANGE_COLOR_TOOLTIP.toString(), true);
-        borderColorButton = initChildButton(editToolbarPane, BORDER_COLOR.toString(),  BORDER_COLOR_TOOLTIP.toString(), true);
+        changeBackgroundColorButton = new ColorPicker();
         
+        Tooltip buttonTooltip = new Tooltip(props.getProperty(CHANGE_COLOR_TOOLTIP.toString()));
+        changeBackgroundColorButton.setTooltip(buttonTooltip);
+        changeBackgroundColorButton.setDisable(true);
+        editToolbarPane.getChildren().add(changeBackgroundColorButton);
+        borderColorButton = new ColorPicker();
+        Tooltip borderTip = new Tooltip(props.getProperty(BORDER_COLOR_TOOLTIP.toString()));
+        borderColorButton.setTooltip(borderTip);
+        borderColorButton.setDisable(true);
+        editToolbarPane.getChildren().add(borderColorButton);
+        Label filler2 = new Label("                               ");
+        editToolbarPane.getChildren().add(filler2);
         borderThicknessSlider = new Slider();
         thickness = new Label();
         borderThicknessSlider.setDisable(true);
         thickness.setText(props.getProperty(THICKNESS_TOOLTIP));
         editToolbarPane.getChildren().add(thickness);
         editToolbarPane.getChildren().add(borderThicknessSlider);
-        filler = new Label("                               ");
+        filler = new Label("                                                      ");
         editToolbarPane.getChildren().add(filler);
         zoom = new Label();
         zoom.setText(props.getProperty(ZOOM_TOOLTIP));
@@ -309,8 +321,12 @@ public class AppGUI implements AppStyleArbiter {
         editToolbarPane.getChildren().add(zoomSlider);
         reassignColorsButton = initChildButton(editToolbarPane, REASSIGN_ICON.toString(), REASSIGN_COLOR_TOOLTIP.toString(), true);
         playButton = initChildButton(editToolbarPane, PLAY_ICON.toString(), PLAY_TOOLTIP.toString(), true);
+        resizeButton = initChildButton(editToolbarPane, RESIZE_ICON.toString(), RESIZE_TOOLTIP.toString(), true);
         toolPane.setRight(editToolbarPane);
         
+    }
+    public Button getResizeButton() {
+        return resizeButton;
     }
     public Button getReassignButton () {
         return reassignColorsButton;
@@ -390,6 +406,7 @@ public class AppGUI implements AppStyleArbiter {
         btnimg.setFitHeight(18);
         btnimg.setFitWidth(18);
         button.setGraphic(btnimg);
+        
         Tooltip buttonTooltip = new Tooltip(props.getProperty(tooltip));
         button.setTooltip(buttonTooltip);
 
