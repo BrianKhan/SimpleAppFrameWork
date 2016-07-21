@@ -5,6 +5,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tooltip;
@@ -72,8 +73,6 @@ public class AppGUI implements AppStyleArbiter {
     /**
      *
      */
-    protected Button testButton;
-    
     protected Button newButton;
     protected Label thickness;
     protected Label zoom;
@@ -141,13 +140,12 @@ public class AppGUI implements AppStyleArbiter {
         // INIT THE TOOLBAR
         toolPane = new BorderPane();
         freePane = new FlowPane();
-        toolPane.setCenter(freePane);
         initFileToolbar(app);
         initEditToolbar(app);
 
         // AND FINALLY START UP THE WINDOW (WITHOUT THE WORKSPACE)
         initWindow();
-        
+
     }
 
     /**
@@ -178,17 +176,18 @@ public class AppGUI implements AppStyleArbiter {
     public Stage getWindow() {
         return primaryStage;
     }
-    
+
     public ColorPicker getColorButton() {
         return changeBackgroundColorButton;
     }
+
     public Button getSaveButton() {
         return saveButton;
     }
+
     public Button getExportButton() {
         return exportMapButton;
     }
-    
 
     public Button getNewButton() {
         return newButton;
@@ -228,12 +227,8 @@ public class AppGUI implements AppStyleArbiter {
      */
     private void initFileToolbar(AppTemplate app) {
         fileToolbarPane = new FlowPane();
-        
-        testButton = new Button("Driver test");
-        
-        freePane.getChildren().add(testButton);
+
         freePane.setAlignment(Pos.CENTER);
-        testButton.setAlignment(Pos.CENTER);
         // HERE ARE OUR FILE TOOLBAR BUTTONS, NOTE THAT SOME WILL
         // START AS ENABLED (false), WHILE OTHERS DISABLED (true)
         //@todo change strings
@@ -241,7 +236,7 @@ public class AppGUI implements AppStyleArbiter {
         loadButton = initChildButton(fileToolbarPane, LOAD_ICON.toString(), LOAD_TOOLTIP.toString(), false);
         saveButton = initChildButton(fileToolbarPane, SAVE_ICON.toString(), SAVE_TOOLTIP.toString(), true);
         exportMapButton = initChildButton(fileToolbarPane, EXPORT_ICON.toString(), EXPORT_TOOLTIP.toString(), true);
-        
+
         exitButton = initChildButton(fileToolbarPane, EXIT_ICON.toString(), EXIT_TOOLTIP.toString(), false);
 
         // AND NOW SETUP THEIR EVENT HANDLERS
@@ -249,38 +244,39 @@ public class AppGUI implements AppStyleArbiter {
         exitButton.setOnAction(e -> {
             fileController.handleExitRequest();
         });
-        testButton.setOnAction(e -> {            
-            fileController.handleTest();
-        });
         toolPane.setLeft(fileToolbarPane);
     }
-    public Button getTestButton() {
-        return testButton;
-    }
+
     public Button getOpenButton() {
         return loadButton;
     }
-    
+
     public FlowPane getFreePane() {
         return freePane;
     }
+
     public Button getRenameButton() {
         return renameMapButton;
     }
+
     public Button getAddButton() {
         return addImageButton;
     }
+
     public Button getRemoveButton() {
         return removeButton;
     }
+
     public ColorPicker getBackgroundButton() {
         return changeBackgroundColorButton;
     }
+
     public ColorPicker getBorderColorButton() {
         return borderColorButton;
     }
+
     private void initEditToolbar(AppTemplate app) {
-        
+
         editToolbarPane = new FlowPane();
         // editToolbarPane.setAlignment(Pos.CENTER);
         renameMapButton = initChildButton(editToolbarPane, CHANGE_NAME.toString(), CHANGE_TOOLTIP.toString(), true);
@@ -288,50 +284,59 @@ public class AppGUI implements AppStyleArbiter {
         removeButton = initChildButton(editToolbarPane, REMOVE.toString(), REMOVE_TOOLTIP.toString(), true);
         PropertiesManager props = PropertiesManager.getPropertiesManager();
         changeBackgroundColorButton = new ColorPicker();
-        
+
         Tooltip buttonTooltip = new Tooltip(props.getProperty(CHANGE_COLOR_TOOLTIP.toString()));
         changeBackgroundColorButton.setTooltip(buttonTooltip);
         changeBackgroundColorButton.setDisable(true);
+        Label backLabel = new Label("Background Color",changeBackgroundColorButton);
+        backLabel.setContentDisplay(ContentDisplay.TOP);
         editToolbarPane.getChildren().add(changeBackgroundColorButton);
+        editToolbarPane.getChildren().add(backLabel);
         borderColorButton = new ColorPicker();
         Tooltip borderTip = new Tooltip(props.getProperty(BORDER_COLOR_TOOLTIP.toString()));
         borderColorButton.setTooltip(borderTip);
+        Label borderLabel = new Label("Borer Color", borderColorButton);
+        borderLabel.setContentDisplay(ContentDisplay.TOP);
         borderColorButton.setDisable(true);
         editToolbarPane.getChildren().add(borderColorButton);
-        Label filler2 = new Label("");
-        editToolbarPane.getChildren().add(filler2);
+        editToolbarPane.getChildren().add(borderLabel);
         borderThicknessSlider = new Slider();
-        thickness = new Label();
+        thickness = new Label(props.getProperty(THICKNESS_TOOLTIP), borderThicknessSlider);
         borderThicknessSlider.setDisable(true);
-        thickness.setText(props.getProperty(THICKNESS_TOOLTIP));
+        thickness.setContentDisplay(ContentDisplay.TOP);
         editToolbarPane.getChildren().add(thickness);
         editToolbarPane.getChildren().add(borderThicknessSlider);
-        filler = new Label("");
-        editToolbarPane.getChildren().add(filler);
-        zoom = new Label();
-        zoom.setText(props.getProperty(ZOOM_TOOLTIP));
-        editToolbarPane.getChildren().add(zoom);
+        
         zoomSlider = new Slider();
         zoomSlider.setDisable(true);
+        zoom = new Label(props.getProperty(ZOOM_TOOLTIP), zoomSlider);
+        zoom.setContentDisplay(ContentDisplay.TOP);
         editToolbarPane.getChildren().add(zoomSlider);
+        editToolbarPane.getChildren().add(zoom);
         reassignColorsButton = initChildButton(editToolbarPane, REASSIGN_ICON.toString(), REASSIGN_COLOR_TOOLTIP.toString(), true);
         playButton = initChildButton(editToolbarPane, PLAY_ICON.toString(), PLAY_TOOLTIP.toString(), true);
         resizeButton = initChildButton(editToolbarPane, RESIZE_ICON.toString(), RESIZE_TOOLTIP.toString(), true);
-        toolPane.setRight(editToolbarPane);
-        
+        toolPane.setRight(freePane);
+        toolPane.setCenter(editToolbarPane);
+
     }
+
     public Button getResizeButton() {
         return resizeButton;
     }
-    public Button getReassignButton () {
+
+    public Button getReassignButton() {
         return reassignColorsButton;
     }
-    public Button getPlayButton () {
+
+    public Button getPlayButton() {
         return playButton;
     }
+
     public Slider getZoomSlider() {
         return zoomSlider;
     }
+
     public Slider getThickness() {
         return borderThicknessSlider;
     }
@@ -358,7 +363,7 @@ public class AppGUI implements AppStyleArbiter {
         // THE USER STARTS EDITING A COURSE
         appPane = new BorderPane();
         appPane.setTop(toolPane);
-        
+
         primaryScene = new Scene(appPane);
 
         // SET THE APP ICON
@@ -401,7 +406,7 @@ public class AppGUI implements AppStyleArbiter {
         btnimg.setFitHeight(18);
         btnimg.setFitWidth(18);
         button.setGraphic(btnimg);
-        
+
         Tooltip buttonTooltip = new Tooltip(props.getProperty(tooltip));
         button.setTooltip(buttonTooltip);
 
