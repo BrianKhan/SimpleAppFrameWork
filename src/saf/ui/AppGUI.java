@@ -246,15 +246,6 @@ public class AppGUI implements AppStyleArbiter {
 
         // AND NOW SETUP THEIR EVENT HANDLERS
         fileController = new AppFileController(app);
-        newButton.setOnAction(e -> {
-            fileController.handleNewRequest();
-        });
-        loadButton.setOnAction(e -> {
-            fileController.handleLoadRequest();
-        });
-        saveButton.setOnAction(e -> {
-            fileController.handleSaveRequest();
-        });
         exitButton.setOnAction(e -> {
             fileController.handleExitRequest();
         });
@@ -266,6 +257,10 @@ public class AppGUI implements AppStyleArbiter {
     public Button getTestButton() {
         return testButton;
     }
+    public Button getOpenButton() {
+        return loadButton;
+    }
+    
     public FlowPane getFreePane() {
         return freePane;
     }
@@ -303,7 +298,7 @@ public class AppGUI implements AppStyleArbiter {
         borderColorButton.setTooltip(borderTip);
         borderColorButton.setDisable(true);
         editToolbarPane.getChildren().add(borderColorButton);
-        Label filler2 = new Label("                               ");
+        Label filler2 = new Label("");
         editToolbarPane.getChildren().add(filler2);
         borderThicknessSlider = new Slider();
         thickness = new Label();
@@ -311,7 +306,7 @@ public class AppGUI implements AppStyleArbiter {
         thickness.setText(props.getProperty(THICKNESS_TOOLTIP));
         editToolbarPane.getChildren().add(thickness);
         editToolbarPane.getChildren().add(borderThicknessSlider);
-        filler = new Label("                                                      ");
+        filler = new Label("");
         editToolbarPane.getChildren().add(filler);
         zoom = new Label();
         zoom.setText(props.getProperty(ZOOM_TOOLTIP));
