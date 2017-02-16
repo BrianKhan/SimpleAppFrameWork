@@ -28,7 +28,6 @@ import xml_utilities.InvalidXMLFileFormatException;
  * toolbar controls and a call to initialize the customly provided workspace
  * component.
  * 
- * *
  * @author Richard McKenna
  * @author ?
  * @version 1.0

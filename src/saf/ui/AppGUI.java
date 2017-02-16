@@ -295,7 +295,7 @@ public class AppGUI implements AppStyleArbiter {
         borderColorButton = new ColorPicker();
         Tooltip borderTip = new Tooltip(props.getProperty(BORDER_COLOR_TOOLTIP.toString()));
         borderColorButton.setTooltip(borderTip);
-        Label borderLabel = new Label("Border Color", borderColorButton);
+        Label borderLabel = new Label("Borer Color", borderColorButton);
         borderLabel.setContentDisplay(ContentDisplay.TOP);
         borderColorButton.setDisable(true);
         editToolbarPane.getChildren().add(borderColorButton);
